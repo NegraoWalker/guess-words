@@ -15,17 +15,33 @@ const stages = [
   { id: 2, name: 'game' },
   { id: 3, name: 'end' },
 ]
+
+
+
 function App() {
 
   const [gameStage, setGameStage] = useState(stages[0].name)
   const [words] = useState(wordsList)
-  console.log(wordsList)
+
+  //Funções implementadas:
+  const startGame = () => {
+    setGameStage(stages[1].name)
+  }
+
+
+  const verifyLetter = () => {
+    setGameStage(stages[2].name)
+  }
+
+  const retry = () => {
+    setGameStage(stages[0].name)
+  }
 
   return (
     <div className="App">
-      {gameStage === 'start' && <StartScreen />} {/*Se o estágio do game for o start eu exibo meu component StartScreen*/}
-      {gameStage === 'game' && <Game />}
-      {gameStage === 'end' && <GameOver />}
+      {gameStage === 'start' && <StartScreen startGame={startGame} />} {/*Se o estágio do game for o start eu exibo meu component StartScreen*/}
+      {gameStage === 'game' && <Game verifyLetter={verifyLetter} />}
+      {gameStage === 'end' && <GameOver retry={retry} />}
     </div>
   );
 }
