@@ -19,12 +19,40 @@ const stages = [
 
 
 function App() {
-
+  //Variáveis e funções de estado:
   const [gameStage, setGameStage] = useState(stages[0].name)
   const [words] = useState(wordsList)
 
+  const [pickedWord, setPickedWord] = useState('')
+  const [pickedCategory, setPickedCategory] = useState('')
+  const [letters, setLetters] = useState([])
+
   //Funções implementadas:
+  const pickWordAndCategory = () => {
+    //Recebendo uma categoria aleatória dos nossos dados:
+    const categories = Object.keys(words) //As categorias são as chaves do objeto do arquivo de dados words.js
+    const category = categories[Math.floor(Math.random() * Object.keys(categories).length)] //Recebendo uma categoria dos dados aleatória
+    console.log(category)
+    //Recebendo uma palavra aleatória da nossa categoria recebida, também de forma aleatória:
+    const word = words[category][Math.floor(Math.random() * words[category].length)]
+    console.log(word)
+
+    return { word, category } //Retornando a palavra e categoria aleatória após o user clicar no botão
+  }
+
+
   const startGame = () => {
+    const { word, category } = pickWordAndCategory() //Recebendo a palavra e a categoria aleatória de forma desestruturada pela função
+    console.log(word, category)
+
+    let wordLetters = word.split('')
+    wordLetters = wordLetters.map((letters) => letters.toLowerCase()) //Transformando todas as letras da palavra para minúsculo. JavaScript é case sensitive e isso pode bugar o input do user
+    console.log(wordLetters)
+
+    setPickedWord(word)
+    setPickedCategory(category)
+    setLetters(wordLetters)
+
     setGameStage(stages[1].name)
   }
 
