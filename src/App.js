@@ -64,8 +64,27 @@ function App() {
 
 
   const verifyLetter = (letter) => {
-    console.log(letter)
+    const normalizedLetter = letter.toLowerCase()//Normalizando as letras todas pra minusculas
+    //Fazendo uma checagem se as letras estão sendo utilizadas:
+    if (guessedLetters.includes(normalizedLetter) || wrongLetters.includes(normalizedLetter)) {
+      return
+    }
+    //Adicionando uma letra como certa ou errada:
+    if (letters.includes(normalizedLetter)) {
+      setGuessedLetters((actualGuessedLetters) => [
+        ...actualGuessedLetters,
+        normalizedLetter
+      ])
+    } else {
+      setWrongLetters((actualWrongLetters) => [
+        ...actualWrongLetters, //Adicionando elementos no array
+        normalizedLetter
+      ])
+    }
   }
+
+  console.log(guessedLetters)
+  console.log(wrongLetters)
 
   const retry = () => {
     setGameStage(stages[0].name)
