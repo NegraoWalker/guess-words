@@ -35,7 +35,7 @@ function App() {
 
 
   //Funções implementadas:
-  const pickWordAndCategory = () => {
+  const pickWordAndCategory = useCallback(() => {
     //Recebendo uma categoria aleatória dos nossos dados:
     const categories = Object.keys(words) //As categorias são as chaves do objeto do arquivo de dados words.js
     const category = categories[Math.floor(Math.random() * Object.keys(categories).length)] //Recebendo uma categoria dos dados aleatória
@@ -45,10 +45,11 @@ function App() {
     console.log(word)
 
     return { word, category } //Retornando a palavra e categoria aleatória após o user clicar no botão
-  }
+  }, [words])
 
 
-  const startGame = () => {
+  const startGame = useCallback(() => {
+    clearLetterStates()
     const { word, category } = pickWordAndCategory() //Recebendo a palavra e a categoria aleatória de forma desestruturada pela função
     console.log(word, category)
 
@@ -61,7 +62,7 @@ function App() {
     setLetters(wordLetters)
 
     setGameStage(stages[1].name)
-  }
+  }, [pickWordAndCategory])
 
 
   const verifyLetter = (letter) => {
@@ -92,7 +93,7 @@ function App() {
   }
 
 
-  useEffect(() => { //É usado para monitoração de algum dado de escolha
+  useEffect(() => { //É usado para monitoração de algum dado de escolha nesse exemplo checar a condição de derrota
     if (guesses <= 0) { //Verificação se o número de tentativas chegou a zero para mudar o estágio do jogo
 
       clearLetterStates()
@@ -100,6 +101,16 @@ function App() {
     }
 
   }, [guesses])
+
+  useEffect(() => { //Usado para checar a condição de vitória
+    const uniqueLetters = [... new Set(letters)]
+
+    //Condição de vitória:
+    if (guessedLetters.length === uniqueLetters.length) {
+      setScore((actualScore) => actualScore += 100)
+      startGame()
+    }
+  }, [guessedLetters, letters, startGame])
 
   const retry = () => {
     setScore(0)
