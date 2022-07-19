@@ -112,7 +112,7 @@ function App() {
     <div className="App">
       {gameStage === 'start' && <StartScreen startGame={startGame} />} {/*Se o estágio do game for o start eu exibo meu component StartScreen*/}
       {gameStage === 'game' && <Game verifyLetter={verifyLetter} pickedWord={pickedWord} pickedCategory={pickedCategory} letters={letters} guessedLetters={guessedLetters} wrongLetters={wrongLetters} guesses={guesses} score={score} />}
-      {gameStage === 'end' && <GameOver retry={retry} />}
+      {gameStage === 'end' && <GameOver retry={retry} score={score} />}
     </div>
   );
 }
