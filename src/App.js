@@ -16,6 +16,7 @@ const stages = [
   { id: 3, name: 'end' },
 ]
 
+const guessesQty = 3
 
 
 function App() {
@@ -80,13 +81,30 @@ function App() {
         ...actualWrongLetters, //Adicionando elementos no array
         normalizedLetter
       ])
+
+      setGuesses((actualGuesses) => actualGuesses - 1)
     }
   }
 
-  console.log(guessedLetters)
-  console.log(wrongLetters)
+  const clearLetterStates = () => {
+    setGuessedLetters([])
+    setWrongLetters([])
+  }
+
+
+  useEffect(() => { //É usado para monitoração de algum dado de escolha
+    if (guesses <= 0) { //Verificação se o número de tentativas chegou a zero para mudar o estágio do jogo
+
+      clearLetterStates()
+      setGameStage(stages[2].name)
+    }
+
+  }, [guesses])
 
   const retry = () => {
+    setScore(0)
+    setGuesses(guessesQty)
+
     setGameStage(stages[0].name)
   }
 
